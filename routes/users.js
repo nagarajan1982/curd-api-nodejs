@@ -1,27 +1,17 @@
 import express from 'express';
-import uuid4 from "uuid4";
+import { getUsers, getUserById, createUser, patchUser, deleteUserById } from '../controllers/users';
 
 const router = express.Router();
 
-const users = [];
-router.get('/', (req, res) => {
-    res.send(users);
-});
+router.get('/', getUsers);
 
-router.get('/:id', (req, res) => {
-    const { id } = req.params;
-    const foundUser = users.find((user) => user.id === id);
-    res.send(user);
-});
+router.get('/:id', getUserById);
 
-router.post('/', (req, res) => {
-    const user = req.body;
-    const userId = uuid4();
-    const userWithId = {...user, id: userId} //... spread operator
+router.delete('/:id', deleteUserById);
 
-    users.push(userWithId);
-    res.send(`User with the name ${user.firstName} has been added to the DB`)
-});
+router.patch('/:id',patchUser);
+
+router.post('/', createUser);
 
 
 export default router;
